@@ -48,7 +48,10 @@ class HttpBinInitValidator(BaseValidator, ValidatorRedisSpider):
         if ORIGIN_IP:
             self.origin_ip = ORIGIN_IP
         else:
-            self.origin_ip = requests.get(self.urls[1]).json().get('origin')
+            try:
+                self.origin_ip = requests.get(self.urls[1]).json().get('origin')
+            except Exception as e:
+                print(f'get origin ip error: {e}; self.urls: {self.urls}')
 
     def is_transparent(self, response):
         """filter transparent ip resources"""

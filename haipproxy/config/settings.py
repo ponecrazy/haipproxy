@@ -6,6 +6,7 @@ Settings for global.
 #####################################################################
 # scrapy basic info
 import os
+
 BOT_NAME = 'haiproxy'
 SPIDER_MODULES = ['haipproxy.crawler.spiders', 'haipproxy.crawler.validators']
 NEWSPIDER_MODULE = 'haipproxy.crawler'
@@ -32,7 +33,6 @@ if os.getenv("ISDOCKER"):
 # extension settings
 RETRY_ENABLED = False
 TELNETCONSOLE_ENABLED = False
-
 
 UserAgentMiddleware = 'haipproxy.crawler.middlewares.UserAgentMiddleware'
 ProxyMiddleware = 'haipproxy.crawler.middlewares.ProxyMiddleware'
@@ -64,7 +64,8 @@ REDIS_HOST = '127.0.0.1'
 if os.getenv("ISDOCKER"):
     REDIS_HOST = 'redis'
 REDIS_PORT = 6379
-REDIS_PASSWORD = '123456'
+# REDIS_PASSWORD = '123456'
+REDIS_PASSWORD = ''
 REDIS_DB = 0
 
 # scheduler settings
@@ -98,12 +99,14 @@ TEMP_HTTP_QUEUE = 'haipproxy:http:temp'
 TEMP_HTTPS_QUEUE = 'haipproxy:https:temp'
 TEMP_WEIBO_QUEUE = 'haipproxy:weibo:temp'
 TEMP_ZHIHU_QUEUE = 'haipproxy:zhihu:temp'
+TEMP_TGSTAT_QUEUE = "haipproxy:tgstat:temp"
 
 # valited queues are zsets.squid and other clients fetch ip resources from them.
 VALIDATED_HTTP_QUEUE = 'haipproxy:validated:http'
 VALIDATED_HTTPS_QUEUE = 'haipproxy:validated:https'
 VALIDATED_WEIBO_QUEUE = 'haipproxy:validated:weibo'
 VALIDATED_ZHIHU_QUEUE = 'haipproxy:validated:zhihu'
+VALIDATED_TGSTAT_QUEUE = "haipproxy:validated:tgstat"
 
 # time to live of proxy ip resources
 TTL_VALIDATED_RESOURCE = 2  # minutes
@@ -111,12 +114,14 @@ TTL_HTTP_QUEUE = 'haipproxy:ttl:http'
 TTL_HTTPS_QUEUE = 'haipproxy:ttl:https'
 TTL_WEIBO_QUEUE = 'haipproxy:ttl:weibo'
 TTL_ZHIHU_QUEUE = 'haipproxy:ttl:zhihu'
+TTL_TGSTAT_QUEUE = "haipproxy:ttl:tgstat"
 
 # queue for proxy speed
 SPEED_HTTP_QUEUE = 'haipproxy:speed:http'
 SPEED_HTTPS_QUEUE = 'haipproxy:speed:https'
 SPEED_WEIBO_QUEUE = 'haipproxy:speed:weibo'
 SPEED_ZHIHU_QUEUE = 'haipproxy:speed:zhihu'
+SPEED_TGSTAT_QUEUE = "haipproxy:speed:tgstat"
 
 # squid settings on linux os
 # execute sudo chown -R $USER /etc/squid/ and
