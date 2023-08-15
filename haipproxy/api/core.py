@@ -78,7 +78,7 @@ def get_proxies(usage):
         usage = 'https'
     proxy_fetcher = usage_registry.get(usage)
     return jsonify({
-        'pool': proxy_fetcher.pool,
+        'pool': list(set(proxy_fetcher.pool)),
         'resource': usage,
         'status_code': 200
     })
