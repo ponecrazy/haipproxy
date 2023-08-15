@@ -148,7 +148,8 @@ class ProxyFetcher(IPFetcherMixin):
         # the older proxies will not be dropped
         proxies = self.get_available_proxies(self.conn)
         # client_logger.info('{} proxies have been fetched'.format(len(proxies)))
-        print('{} proxies have been fetched'.format(len(proxies)))
+        if len(proxies) > 0:
+            print(f'{len(proxies)} proxies have been fetched')
         self.pool.extend(proxies)
         return self.pool
 

@@ -55,10 +55,10 @@ class HttpBinInitValidator(BaseValidator, ValidatorRedisSpider):
 
     def is_transparent(self, response):
         """filter transparent ip resources"""
-        if not response.body_as_unicode():
+        if not response.text:
             return True
         try:
-            ip = json.loads(response.body_as_unicode()).get('origin')
+            ip = json.loads(response.text).get('origin')
             if self.origin_ip in ip:
                 return True
         except (AttributeError, JSONDecodeError):
