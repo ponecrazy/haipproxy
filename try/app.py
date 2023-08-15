@@ -1,13 +1,31 @@
 """
-web api for haipproxy
+-------------------------------------------------
+    File Name       app
+    Description     
+    Author          Yifeng Peng
+    date            2023-08-15
+-------------------------------------------------
+    change Activity
+                    2023-08-15 create
+                    
+-------------------------------------------------
 """
-import os
-
 from flask import (
     Flask, jsonify as flask_jsonify)
 
-from ..client.py_cli import ProxyFetcher
-from ..config.rules import VALIDATOR_TASKS
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello_world():
+    return "Hello World!"
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=6001)
+
+
+
+
 
 
 def jsonify(*args, **kwargs):
@@ -17,13 +35,10 @@ def jsonify(*args, **kwargs):
     return response
 
 
-os.environ["DEBUG"] = "True"
 
 # web api uses robin strategy for proxy schedule, crawler client may implete
 # its own schedule strategy
-usage_registry = {task['name']: ProxyFetcher('task') for task in VALIDATOR_TASKS}
 app = Flask(__name__)
-app.debug = bool(os.environ.get("DEBUG"))
 app.config["JSONIFY_PRETTYPRINT_REGULAR"] = True
 
 
@@ -42,19 +57,11 @@ def not_found(e):
         'status_code': 500
     })
 
-@app.route("/")
-def hello_world():
-    return "Hello World!"
 
 @app.route("/proxy/get/<usage>")
 def get_proxy(usage):
     # default usage is 'https'
-    if usage not in usage_registry:
-        usage = 'https'
-    proxy_fetcher = usage_registry.get(usage)
-    ip = proxy_fetcher.get_proxy()
     return jsonify({
-        'proxy': ip,
         'resource': usage,
         'status_code': 200
     })
@@ -62,10 +69,6 @@ def get_proxy(usage):
 
 @app.route("/proxy/delete/<usage>/<proxy>")
 def delete_proxy(usage, proxy):
-    if usage not in usage_registry:
-        usage = 'https'
-    proxy_fetcher = usage_registry.get(usage)
-    proxy_fetcher.delete_proxy(proxy)
     return jsonify({
         'result': 'ok',
         'status_code': 200
@@ -74,11 +77,7 @@ def delete_proxy(usage, proxy):
 
 @app.route("/pool/get/<usage>")
 def get_proxies(usage):
-    if usage not in usage_registry:
-        usage = 'https'
-    proxy_fetcher = usage_registry.get(usage)
     return jsonify({
-        'pool': proxy_fetcher.pool,
         'resource': usage,
         'status_code': 200
     })

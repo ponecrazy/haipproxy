@@ -1,23 +1,26 @@
-version: "2.0"
+version: "1.0"
 services:
-  redis:
-    image: redis:alpine
-    ports:
-      - "6379:6379"
-#    command: >
-#      --requirepass 123456
-  splash:
-    image: scrapinghub/splash
-    ports:
-      - "8050:8050"
   haipproxy:
     build: .
     command: sh run.sh
     volumes:
       - .:/haipproxy
     ports:
-      - "6000:6000"
+      - "8000:8000"
       - "3128:3128"
     links:
       - redis
       - splash
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+#    command: >
+#      --requirepass 123456
+
+  splash:
+    image: scrapinghub/splash
+    ports:
+      - "8050:8050"
+

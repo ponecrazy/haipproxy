@@ -244,10 +244,12 @@ def crawler_start(usage, tasks):
 @click.command()
 @click.option('--usage', default='https', help='Usage of squid')
 @click.option('--interval', default=TTL_VALIDATED_RESOURCE, help='Updating frenquency of squid conf.')
-def squid_conf_update(usage, interval):
+@click.option('--is_mac', is_flag=True, help='Whether it is a mac')
+def squid_conf_update(usage, interval, is_mac):
+
     """Timertask for updating proxies for squid config file"""
     # client_logger.info('the updating task is starting...')
-    client = SquidClient(usage)
+    client = SquidClient(usage, is_mac)
     client.update_conf()
     schedule.every(interval).minutes.do(client.update_conf)
     while True:

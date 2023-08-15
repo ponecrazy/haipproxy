@@ -15,7 +15,6 @@ from ..config.rules import (
     SPEED_MAPS)
 from .core import IPFetcherMixin
 
-
 __all__ = ['SquidClient']
 
 
@@ -25,7 +24,7 @@ class SquidClient(IPFetcherMixin):
     other_confs = ['request_header_access Via deny all', 'request_header_access X-Forwarded-For deny all',
                    'request_header_access From deny all', 'never_direct allow all']
 
-    def __init__(self, task, score_map=SCORE_MAPS,
+    def __init__(self, task, is_mac: bool, score_map=SCORE_MAPS,
                  ttl_map=TTL_MAPS, speed_map=SPEED_MAPS,
                  longest_response_time=LONGEST_RESPONSE_TIME, lowest_score=LOWEST_SCORE,
                  ttl_validated_resource=TTL_VALIDATED_RESOURCE, min_pool_size=LOWEST_TOTAL_PROXIES):
@@ -37,8 +36,13 @@ class SquidClient(IPFetcherMixin):
         speed_queue = speed_map.get(task)
         super().__init__(score_queue, ttl_queue, speed_queue, longest_response_time,
                          lowest_score, ttl_validated_resource, min_pool_size)
+
         self.template_path = SQUID_TEMPLATE_PATH
         self.conf_path = SQUID_CONF_PATH
+        if is_mac:
+            self.conf_path = '/usr/local/etc/squid.conf'
+            self.template_path = '/usr/local/etc/squid.conf.backup'
+
         if not SQUID_BIN_PATH:
             try:
                 r = subprocess.check_output('which squid', shell=True)
@@ -49,6 +53,10 @@ class SquidClient(IPFetcherMixin):
                 pass
         else:
             self.squid_path = SQUID_BIN_PATH
+            if is_mac:
+                self.squid_path = '/usr/local/sbin/squid'
+
+
 
     def update_conf(self):
         conn = get_redis_conn()
@@ -68,7 +76,7 @@ class SquidClient(IPFetcherMixin):
                     ip, port = ip_port.split(':')
                     conts.append(self.default_conf_detail.format(ip, port, index))
                 conts.extend(self.other_confs)
-                conf = '\n'.join(conts)
+                conf = '\n'.join(conts) + '\n'
                 fw.write(conf)
         # in docker, execute with shell will fail
         subprocess.call([self.squid_path, '-k', 'reconfigure'], shell=False)

@@ -1,0 +1,10 @@
+version: "1.0"
+services:
+  test:
+    build: .
+    volumes:
+      - .:/test
+    command: sh run.sh
+    ports:
+      - "6001:6001"
+

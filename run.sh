@@ -1,12 +1,24 @@
 #!/bin/bash
-nohup python crawler_booter.py --usage crawler common > crawler.log 2>&1 &
-nohup python scheduler_booter.py --usage crawler common > crawler_scheduler.log 2>&1 &
-nohup python crawler_booter.py --usage validator init > init_validator.log 2>&1 &
-nohup python crawler_booter.py --usage validator https tgstat > https_validator.log 2>&1&
-nohup python scheduler_booter.py --usage validator https tgstat > validator_scheduler.log 2>&1 &
+log_path="./log"
+if [ ! -d "$log_path" ]; then
+    mkdir "$log_path"
+fi
 
-nohup python app_booter.py --port 6000 > app.log 2>&1 &
+IS_MAC=""
+if [ "$(uname)" == "Darwin" ]; then
+  IS_MAC="--is_mac"
+fi
 
-nohup python squid_update.py --usage https --interval 3 > squid.log 2>&1 &
+nohup python crawler_booter.py --usage crawler common > $log_path/crawler.log 2>&1 &
+nohup python scheduler_booter.py --usage crawler common > $log_path/crawler_scheduler.log 2>&1 &
+nohup python crawler_booter.py --usage validator init > $log_path/init_validator.log 2>&1 &
+nohup python crawler_booter.py --usage validator https tgstat > $log_path/spider_validator.log 2>&1&
+nohup python scheduler_booter.py --usage validator https tgstat > $log_path/validator_scheduler.log 2>&1 &
+
+nohup python app_booter.py --host 0.0.0.0 --port 8000 > $log_path/app.log 2>&1 &
+
+nohup python squid_update.py --usage https --interval 3 $IS_MAC > $log_path/squid.log 2>&1 &
+nohup python squid_update.py --usage tgstat --interval 3 $IS_MAC > $log_path/squid.log 2>&1 &
+
 rm -rf /var/run/squid.pid
 squid -N -d1
