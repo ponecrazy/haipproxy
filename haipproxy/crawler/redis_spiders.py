@@ -35,8 +35,9 @@ class RedisMixin(object):
         """send signals when the spider is free"""
         self.redis_batch_size = SPIDER_FEED_SIZE
         self.redis_con = get_redis_conn()
+        self.crawler = crawler
 
-        crawler.signals.connect(self.spider_idle, signal=signals.spider_idle)
+        self.crawler.signals.connect(self.spider_idle, signal=signals.spider_idle)
 
     def next_requests(self):
         fetch_one = self.redis_con.spop if self.use_set else self.redis_con.lpop
@@ -56,7 +57,7 @@ class RedisMixin(object):
 
     def schedule_next_requests(self):
         for req in self.next_requests():
-            self.crawler.engine.crawl(req, spider=self)
+            self.crawler.engine.crawl(req)
 
     def spider_idle(self):
         self.schedule_next_requests()

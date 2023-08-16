@@ -1,5 +1,6 @@
 raven==6.8.0
 redis==4.0
+hiredis
 requests
 schedule
 Flask
