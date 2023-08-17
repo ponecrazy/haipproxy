@@ -8,10 +8,10 @@ class TgStatValidator(BaseValidator, ValidatorRedisSpider):
     """This validator checks the liveness of zhihu proxy resources"""
     name = 'tgstat'
     urls = [
-        'https://tgstat.ru/'
+        'https://tgstat.ru/tags/theme'
     ]
     task_queue = TEMP_TGSTAT_QUEUE
     score_queue = VALIDATED_TGSTAT_QUEUE
     ttl_queue = TTL_TGSTAT_QUEUE
     speed_queue = SPEED_TGSTAT_QUEUE
-    success_key = 'Каталог Telegram-каналов и чатов'
+    success_key = 'Подборки Telegram-каналов'

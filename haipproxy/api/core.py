@@ -2,6 +2,7 @@
 web api for haipproxy
 """
 import os
+import time
 
 from flask import (
     Flask, jsonify as flask_jsonify)
@@ -21,7 +22,7 @@ os.environ["DEBUG"] = "True"
 
 # web api uses robin strategy for proxy schedule, crawler client may implete
 # its own schedule strategy
-usage_registry = {task['name']: ProxyFetcher('task') for task in VALIDATOR_TASKS}
+usage_registry = {task['name']: ProxyFetcher(task['name']) for task in VALIDATOR_TASKS}
 app = Flask(__name__)
 app.debug = bool(os.environ.get("DEBUG"))
 app.config["JSONIFY_PRETTYPRINT_REGULAR"] = True
@@ -42,9 +43,11 @@ def not_found(e):
         'status_code': 500
     })
 
+
 @app.route("/")
 def hello_world():
     return "Hello World!"
+
 
 @app.route("/proxy/get/<usage>")
 def get_proxy(usage):

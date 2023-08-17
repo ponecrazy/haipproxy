@@ -94,7 +94,7 @@ INIT_SOCKS5_QUEUE = 'haipproxy:init:socks5'
 # custom validator settings
 VALIDATOR_FEED_SIZE = 50
 
-# they are temp sets, come from init queue, in order to filter transparnt ip
+# they are temp sets, come from init queue, in order to filter transparent ip
 TEMP_HTTP_QUEUE = 'haipproxy:http:temp'
 TEMP_HTTPS_QUEUE = 'haipproxy:https:temp'
 TEMP_WEIBO_QUEUE = 'haipproxy:weibo:temp'

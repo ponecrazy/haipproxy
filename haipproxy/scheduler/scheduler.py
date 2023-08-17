@@ -250,7 +250,8 @@ def squid_conf_update(usage, interval, is_mac):
     """Timertask for updating proxies for squid config file"""
     # client_logger.info('the updating task is starting...')
     client = SquidClient(usage, is_mac)
-    client.update_conf()
+
+    client.init_conf()
     schedule.every(interval).minutes.do(client.update_conf)
     while True:
         schedule.run_pending()

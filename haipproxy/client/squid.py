@@ -56,9 +56,7 @@ class SquidClient(IPFetcherMixin):
             if is_mac:
                 self.squid_path = '/usr/local/sbin/squid'
 
-
-
-    def update_conf(self):
+    def init_conf(self):
         conn = get_redis_conn()
         proxies = self.get_available_proxies(conn)
         conts = list()
@@ -78,6 +76,9 @@ class SquidClient(IPFetcherMixin):
                 conts.extend(self.other_confs)
                 conf = '\n'.join(conts) + '\n'
                 fw.write(conf)
+
+    def update_conf(self):
+        self.init_conf()
         # in docker, execute with shell will fail
         subprocess.call([self.squid_path, '-k', 'reconfigure'], shell=False)
         # client_logger.info('Squid conf is successfully updated')

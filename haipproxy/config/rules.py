@@ -24,107 +24,6 @@ __all__ = ['CRAWLER_TASKS', 'VALIDATOR_TASKS', 'CRAWLER_TASK_MAPS',
 
 
 CRAWLER_TASKS = [
-    # {
-    #     'name': 'ab57.ru',
-    #     'resource': ['http://ab57.ru/downloads/proxyold.txt'],
-    #     'task_queue': SPIDER_COMMON_TASK,
-    #     'parse_type': 'text',
-    #     'parse_rule': {
-    #         'pre_extract': None,
-    #         'delimiter': '\r\n',
-    #         'redundancy': None,
-    #         'protocols': None
-    #     },
-    #     'interval': 60,
-    #     'enable': 1,
-    # },
-    # {
-    #     'name': '66ip.cn',
-    #     'resource': ['http://www.66ip.cn/%s.html' % i for i in range(1, 3)] +
-    #                 ['http://www.66ip.cn/areaindex_%s/%s.html' % (i, j)
-    #                  for i in range(1, 35) for j in range(1, 3)],
-    #     'task_queue': SPIDER_COMMON_TASK,
-    #     'parse_type': 'common',
-    #     'parse_rule': {
-    #         'pre_extract_method': 'xpath',
-    #         'pre_extract': '//tr',
-    #         'infos_pos': 4,
-    #         'infos_end': None,
-    #         'detail_rule': 'td::text',
-    #         'ip_pos': 0,
-    #         'port_pos': 1,
-    #         'extract_protocol': True,
-    #         'split_detail': False,
-    #         'protocols': None
-    #     },
-    #     'interval': 2 * 60,
-    #     'enable': 1
-    # },
-    # {
-    #     'name': 'baizhongsou.com',
-    #     'resource': ['http://ip.baizhongsou.com/'],
-    #     'task_queue': SPIDER_COMMON_TASK,
-    #     'parse_type': 'common',
-    #     'parse_rule': {
-    #         'pre_extract_method': 'xpath',
-    #         'pre_extract': '//tr',
-    #         'infos_pos': 1,
-    #         'infos_end': None,
-    #         'detail_rule': 'td::text',
-    #         'ip_pos': 0,
-    #         'port_pos': 1,
-    #         'extract_protocol': True,
-    #         'split_detail': True,
-    #         'protocols': None
-    #     },
-    #     'interval': 30,
-    #     'enable': 1
-    # },
-    # {
-    #     'name': 'data5u.com',
-    #     'resource': [
-    #         'http://www.data5u.com/free/index.shtml',
-    #         'http://www.data5u.com/free/gngn/index.shtml',
-    #         'http://www.data5u.com/free/gwgn/index.shtml'
-    #     ],
-    #     'task_queue': SPIDER_COMMON_TASK,
-    #     'parse_type': 'common',
-    #     'parse_rule': {
-    #         'pre_extract_method': 'xpath',
-    #         'pre_extract': '//ul[contains(@class, "l2")]',
-    #         'infos_pos': 0,
-    #         'infos_end': None,
-    #         'detail_rule': 'span li::text',
-    #         'ip_pos': 0,
-    #         'port_pos': 1,
-    #         'extract_protocol': True,
-    #         'split_detail': False,
-    #         'protocols': None
-    #     },
-    #     'interval': 10,
-    #     'enable': 1,
-    # },
-    # {
-    #     'name': 'ip3366.net',
-    #     'resource': ['http://www.ip3366.net/free/?stype=1&page=%s' % i for i in range(1, 3)] +
-    #                 ['http://www.ip3366.net/free/?stype=3&page=%s' % i for i in range(1, 3)],
-    #     'task_queue': SPIDER_COMMON_TASK,
-    #     'parse_type': 'common',
-    #     'parse_rule': {
-    #         'pre_extract_method': 'xpath',
-    #         'pre_extract': '//tr',
-    #         'infos_pos': 1,
-    #         'infos_end': None,
-    #         'detail_rule': 'td::text',
-    #         'ip_pos': 0,
-    #         'port_pos': 1,
-    #         'extract_protocol': True,
-    #         'split_detail': False,
-    #         'protocols': None
-    #     },
-    #     'interval': 30,
-    #     'enable': 1
-    # },
     {
         'name': 'my-proxy.com',
         'resource': [
@@ -265,7 +164,7 @@ CRAWLER_TASKS = [
             'https://free-proxy-list.net/uk-proxy.html',
             'https://free-proxy-list.net/anonymous-proxy.html',
         ],
-        'task_queue': SPIDER_GFW_TASK,
+        'task_queue': SPIDER_COMMON_TASK,
         'parse_type': 'common',
         'parse_rule': {
             'pre_extract_method': 'xpath',
@@ -289,7 +188,7 @@ CRAWLER_TASKS = [
             'http://list.proxylistplus.com/Fresh-HTTP-Proxy-List-1',
             'http://list.proxylistplus.com/SSL-List-1'
         ],
-        'task_queue': SPIDER_GFW_TASK,
+        'task_queue': SPIDER_COMMON_TASK,
         'parse_type': 'common',
         'parse_rule': {
             'pre_extract_method': 'xpath',
@@ -310,7 +209,7 @@ CRAWLER_TASKS = [
     {
         'name': 'free-proxy.cz',
         'resource': ['http://free-proxy.cz/en/proxylist/main/%s' % i for i in range(1, 30)],
-        'task_queue': SPIDER_AJAX_GFW_TASK,
+        'task_queue': SPIDER_AJAX_TASK,
         'parse_type': 'free-proxy',
         'interval': 3 * 60,
         'enable': 1,
@@ -318,7 +217,7 @@ CRAWLER_TASKS = [
     {
         'name': 'proxy-list.org',
         'resource': ['https://proxy-list.org/english/index.php?p=%s' % i for i in range(1, 11)],
-        'task_queue': SPIDER_AJAX_GFW_TASK,
+        'task_queue': SPIDER_AJAX_TASK,
         'parse_type': 'common',
         'parse_rule': {
             'pre_extract_method': 'css',
@@ -335,7 +234,107 @@ CRAWLER_TASKS = [
         'interval': 60,
         'enable': 1,
     },
-
+    {
+        'name': 'ab57.ru',
+        'resource': ['http://ab57.ru/downloads/proxyold.txt'],
+        'task_queue': SPIDER_COMMON_TASK,
+        'parse_type': 'text',
+        'parse_rule': {
+            'pre_extract': None,
+            'delimiter': '\r\n',
+            'redundancy': None,
+            'protocols': None
+        },
+        'interval': 60,
+        'enable': 1,
+    },
+    {
+        'name': '66ip.cn',
+        'resource': ['http://www.66ip.cn/%s.html' % i for i in range(1, 3)] +
+                    ['http://www.66ip.cn/areaindex_%s/%s.html' % (i, j)
+                     for i in range(1, 35) for j in range(1, 3)],
+        'task_queue': SPIDER_COMMON_TASK,
+        'parse_type': 'common',
+        'parse_rule': {
+            'pre_extract_method': 'xpath',
+            'pre_extract': '//tr',
+            'infos_pos': 4,
+            'infos_end': None,
+            'detail_rule': 'td::text',
+            'ip_pos': 0,
+            'port_pos': 1,
+            'extract_protocol': True,
+            'split_detail': False,
+            'protocols': None
+        },
+        'interval': 2 * 60,
+        'enable': 1
+    },
+    {
+        'name': 'baizhongsou.com',
+        'resource': ['http://ip.baizhongsou.com/'],
+        'task_queue': SPIDER_COMMON_TASK,
+        'parse_type': 'common',
+        'parse_rule': {
+            'pre_extract_method': 'xpath',
+            'pre_extract': '//tr',
+            'infos_pos': 1,
+            'infos_end': None,
+            'detail_rule': 'td::text',
+            'ip_pos': 0,
+            'port_pos': 1,
+            'extract_protocol': True,
+            'split_detail': True,
+            'protocols': None
+        },
+        'interval': 30,
+        'enable': 1
+    },
+    {
+        'name': 'data5u.com',
+        'resource': [
+            'http://www.data5u.com/free/index.shtml',
+            'http://www.data5u.com/free/gngn/index.shtml',
+            'http://www.data5u.com/free/gwgn/index.shtml'
+        ],
+        'task_queue': SPIDER_COMMON_TASK,
+        'parse_type': 'common',
+        'parse_rule': {
+            'pre_extract_method': 'xpath',
+            'pre_extract': '//ul[contains(@class, "l2")]',
+            'infos_pos': 0,
+            'infos_end': None,
+            'detail_rule': 'span li::text',
+            'ip_pos': 0,
+            'port_pos': 1,
+            'extract_protocol': True,
+            'split_detail': False,
+            'protocols': None
+        },
+        'interval': 10,
+        'enable': 1,
+    },
+    {
+        'name': 'ip3366.net',
+        'resource': ['http://www.ip3366.net/free/?stype=1&page=%s' % i for i in range(1, 3)] +
+                    ['http://www.ip3366.net/free/?stype=3&page=%s' % i for i in range(1, 3)],
+        'task_queue': SPIDER_COMMON_TASK,
+        'parse_type': 'common',
+        'parse_rule': {
+            'pre_extract_method': 'xpath',
+            'pre_extract': '//tr',
+            'infos_pos': 1,
+            'infos_end': None,
+            'detail_rule': 'td::text',
+            'ip_pos': 0,
+            'port_pos': 1,
+            'extract_protocol': True,
+            'split_detail': False,
+            'protocols': None
+        },
+        'interval': 30,
+        'enable': 1
+    },
 ]
 
 # crawler will fetch tasks from the following queues
